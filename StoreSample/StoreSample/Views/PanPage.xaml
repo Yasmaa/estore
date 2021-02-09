@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<vw:PedidoXaml xmlns="http://xamarin.com/schemas/2014/forms"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:vw="clr-namespace:StoreSample.Views"
+               IsBusy="{Binding IsBusy, Mode=OneWay}"
+               Title="{Binding Title, Mode=OneWay}"
+               Shell.NavBarIsVisible="False"
+               x:Class="StoreSample.Views.PedidoPage">
+    
+    <vw:PedidoXaml.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="White"/>
+                <Setter Property="FontSize" Value="Title"/>
+            </Style>
+
+            <Style TargetType="Button">
+                <Setter Property="TextColor" Value="White"></Setter>
+                <Setter Property="VisualStateManager.VisualStateGroups">
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#332196F3" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Disabled">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </Setter>
+            </Style>
+
+        </ResourceDictionary>
+    </vw:PedidoXaml.Resources>
+
+    
+    <ContentPage.Content>
+        <Grid RowDefinitions="*,auto" BackgroundColor="{StaticResource Primary}">
+            <ScrollView  Grid.Row="0">
+                <FlexLayout Direction="Column" AlignItems="Center" JustifyContent="Center">
+                    <Label Text="{Binding Item.Cliente.Nome}"/>
+                    <Label Text="{Binding Item.Id, StringFormat='{}pedido {0:0000} realizado!'}" LineBreakMode="WordWrap" />
+                    <Label Text="{Binding Item.Total, Mode=OneWay,StringFormat='{}Total R$ {0:0.00}'}" />
+
+                    <StackLayout x:Name="collection" BindableLayout.ItemsSource="{Binding ItemsPedido}" Margin="0,16,0,0">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid ColumnDefinitions="auto,*,auto" Margin="16,0">
+
+                                        <!--quantidade-->
+                                        <Label Text="{Binding Quantite, Mode=OneWay, StringFormat='{}{0:00}'}" Grid.Column="0"/>
+
+                                        <!--nome-->
+                                        <Label Text="{Binding Product.Nom, Mode=OneWay}" Grid.Column="1"/>
+
+                                        <!--total-->
+                                        <Label Text="{Binding Total, Mode=OneWay, StringFormat='{}R$ {0:0.00}'}" Grid.Column="2"  />
+                                    </Grid>
+                                </Grid>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </StackLayout>
+                </FlexLayout>
+            </ScrollView>
+
+            <Frame Grid.Row="1" BackgroundColor="Transparent">
+                <Button Text="Fechar" Command="{Binding FeachCommand}"/>
+            </Frame>
+        </Grid>
+
+    </ContentPage.Content>
+</vw:PedidoXaml>
